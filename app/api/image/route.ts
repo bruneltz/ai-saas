@@ -1,14 +1,8 @@
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
-import { OpenAI } from "openai"
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { OpenAI } from "openai";
 
-const openai = new OpenAI({apiKey: process.env.OPEN_API_KEY});
-
-const instructionMessage: ChatCompletionMessageParam = {
-    role: "system",
-    content: "You are a code generator."
-}
+const openai = new OpenAI({ apiKey: process.env.OPEN_API_KEY });
 
 export async function POST(req: Request) {
     try {
@@ -41,7 +35,7 @@ export async function POST(req: Request) {
     } catch (error) {
         console.log("[IMAGE_ERROR]", error);
 
-        if(error instanceof OpenAI.APIError) {
+        if (error instanceof OpenAI.APIError) {
             return new NextResponse(error.message, { status: error.status })
         } else {
             return new NextResponse("Internal error", { status: 500 })
