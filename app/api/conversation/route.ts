@@ -5,6 +5,7 @@ import { OpenAI } from "openai"
 const openai = new OpenAI({ apiKey: process.env.OPEN_API_KEY });
 
 import { increaseApiLimit, checkApiLimit } from "@/lib/api-limit";
+import { checkSubscription } from "@/lib/subscription";
 
 export async function POST(req: Request) {
     try {
@@ -21,7 +22,9 @@ export async function POST(req: Request) {
             return new NextResponse("Messages are required", { status: 400 });
         }
 
-        if (!checkApiLimit()) {
+        const freeTrial = await checkApiLimit();
+        const isPro = await checkSubscription();
+        if (!freeTrial && !isPro) {
             return new NextResponse("Free trial has expired", { status: 403 })
         }
 
@@ -30,7 +33,9 @@ export async function POST(req: Request) {
             messages
         })
 
-        await increaseApiLimit();
+        if(!isPro) {
+            await increaseApiLimit();
+        }
     
         return NextResponse.json(response.choices[0].message);
     } catch (error) {

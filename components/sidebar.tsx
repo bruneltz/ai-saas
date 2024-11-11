@@ -56,6 +56,7 @@ const routes = [
 
 interface SidebarConfig {
     count: number;
+    isPro: boolean;
 }
 
 export default function Sidebar(props : SidebarConfig) {
@@ -88,6 +89,7 @@ export default function Sidebar(props : SidebarConfig) {
             </div>
             <FreeCounter 
                 apiLimitCount={props.count}
+                isPro={props.isPro}
             />
         </div>
     )

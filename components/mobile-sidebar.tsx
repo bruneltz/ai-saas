@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import Sidebar from "./sidebar";
 
-export default function MobileSidebar() {
+export default function MobileSidebar(props) {
 
     return (
         <Sheet>
@@ -15,7 +15,7 @@ export default function MobileSidebar() {
                 </Button>
             </SheetTrigger>
             <SheetContent side="left" className="p-0">
-                <Sidebar />
+                <Sidebar count={props.count} isPro={props.isPro}/>
             </SheetContent>
         </Sheet>
     )
