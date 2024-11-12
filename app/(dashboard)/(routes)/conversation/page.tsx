@@ -36,7 +36,6 @@ export default function ConversationPage() {
     const isLoading = form.formState.isSubmitting;
     const onSubmit = async (values: z.infer<typeof formSchema>) => {
         try {
-            throw new Error("a")
             const userMessage: ChatCompletionMessageParam = {
                 role: "user",
                 content: values.prompt
@@ -44,19 +43,17 @@ export default function ConversationPage() {
 
             const newMessages = [...messages, userMessage];
 
-            console.log(newMessages);
             const response = await axios.post("/api/conversation", { messages: newMessages })
 
             setMessages((current) => [...current, userMessage, response.data])
 
             form.reset();
-        } catch (error: any) {
+        } catch (error) {
             if(error?.response?.status === 403) {
                 proModal.onOpen();
             } else {
                 toast.error("Something went wrong.")
             }
-            console.log(error)
         } finally {
             router.refresh();
         }

@@ -39,6 +39,7 @@ export default function VideoPage() {
             setVideo(response.data[0])
 
             form.reset();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
             if (error?.response?.status === 403) {
                 proModal.onOpen();

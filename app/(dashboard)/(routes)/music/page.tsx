@@ -15,9 +15,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { formSchema } from "./constants";
+import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function MusicPage() {
     const [music, setMusic] = useState<string>();
+    const proModal = useProModal();
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -36,8 +39,13 @@ export default function MusicPage() {
             setMusic(response.data.audio)
 
             form.reset();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         } catch (error: any) {
-            console.log(error)
+            if(error?.response?.status === 403) {
+                proModal.onOpen();
+            } else {
+                toast.error("Something went wrong.")
+            }
         } finally {
             router.refresh();
         }
