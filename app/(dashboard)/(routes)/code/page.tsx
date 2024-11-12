@@ -130,7 +130,7 @@ export default function CodePage() {
                                 }}
                                     className="text-sm overflow-hidden leading-7"
                                 >
-                                    {message.content || ""}
+                                    {String(message.content)}
                                 </ReactMarkdown>
                             </div>
 
