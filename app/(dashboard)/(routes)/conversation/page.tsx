@@ -48,8 +48,9 @@ export default function ConversationPage() {
             setMessages((current) => [...current, userMessage, response.data])
 
             form.reset();
-        } catch (error) {
-            if(error?.response?.status === 403) {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        } catch (error: any) {
+            if (error?.response?.status === 403) {
                 proModal.onOpen();
             } else {
                 toast.error("Something went wrong.")
@@ -105,16 +106,16 @@ export default function ConversationPage() {
 
                     <div className="flex flex-col-reverse gap-y-4">
                         {messages.map((message, idx) => (
-                            <div 
+                            <div
                                 key={idx}
                                 className={cn("p-8 w-full flex items-start gap-x-8 rounded-lg",
                                     message.role === "user" ? "bg-white border border-black/10" :
-                                    "bg-muted"
+                                        "bg-muted"
                                 )}
                             >
-                                {message.role === "user" ? <UserAvatar/> : <BotAvatar/>}
+                                {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
                                 <p className="text-sm">
-                                {message.content}
+                                    {String(message.content)}
                                 </p>
                             </div>
 
