@@ -2,30 +2,28 @@
 
 import Heading from "@/components/heading";
 import axios from "axios";
-import { Code, Download, ImageIcon } from "lucide-react";
+import { Download, ImageIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import ReactMarkdown from "react-markdown";
 import * as z from "zod";
 
-import { BotAvatar } from "@/components/bot-avatar";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { Card, CardFooter } from "@/components/ui/card";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { UserAvatar } from "@/components/user-avatar";
-import { cn } from "@/lib/utils";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { useState } from "react";
 import { amountOptions, formSchema, resolutionOptions } from "./constants";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardFooter } from "@/components/ui/card";
-import Image from "next/image";
+import { useProModal } from "@/hooks/use-pro-modal";
+import toast from "react-hot-toast";
 
 export default function ImagePage() {
 	const [images, setImages] = useState<string[]>([])
+    const proModal = useProModal();
 
 	const router = useRouter()
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -50,7 +48,11 @@ export default function ImagePage() {
 
 			form.reset();
 		} catch (error: any) {
-			console.log(error)
+            if(error?.response?.status === 403) {
+                proModal.onOpen();
+            } else {
+                toast.error("Something went wrong.")
+            }
 		} finally {
 			router.refresh();
 		}

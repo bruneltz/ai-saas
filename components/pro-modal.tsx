@@ -92,9 +92,11 @@ export default function ProModal() {
                 </DialogHeader>
                 <DialogFooter>
                     <Button 
+                        disabled={loading}
                         onClick={onSubscribe}
                         className="w-full" size="lg" variant="premium">
-                        Upgrade <Zap className="size-4 ml-2 fill-white" />
+                        Upgrade
+                        <Zap className="size-4 ml-2 fill-white" />
                     </Button>
                 </DialogFooter>
             </DialogContent>

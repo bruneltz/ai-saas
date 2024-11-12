@@ -2,7 +2,7 @@
 
 import Heading from "@/components/heading";
 import axios from "axios";
-import { Music, VideoIcon } from "lucide-react";
+import { VideoIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
 
@@ -11,13 +11,16 @@ import { Loader } from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useProModal } from "@/hooks/use-pro-modal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { formSchema } from "./constants";
 
 export default function VideoPage() {
     const [video, setVideo] = useState<string>();
+    const proModal = useProModal();
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -37,7 +40,11 @@ export default function VideoPage() {
 
             form.reset();
         } catch (error: any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            } else {
+                toast.error("Something went wrong.")
+            }
         } finally {
             router.refresh();
         }
@@ -89,7 +96,7 @@ export default function VideoPage() {
 
                     {video && (
                         <video controls className="w-full aspect-video mt-8 rounded-lg border bg-black">
-                            <source src={video}/>
+                            <source src={video} />
                         </video>
                     )}
                 </div>

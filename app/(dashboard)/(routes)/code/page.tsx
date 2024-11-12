@@ -1,28 +1,31 @@
 "use client";
 
-import * as z from "zod";
-import axios from "axios";
 import Heading from "@/components/heading";
-import { Code, MessageSquare } from "lucide-react";
+import axios from "axios";
+import { Code } from "lucide-react";
 import { useForm } from "react-hook-form";
-import ReactMarkdown from "react-markdown"
+import ReactMarkdown from "react-markdown";
+import * as z from "zod";
 
-import { formSchema } from "./constants";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { BotAvatar } from "@/components/bot-avatar";
 import { Empty } from "@/components/empty";
 import { Loader } from "@/components/loader";
-import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
+import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { UserAvatar } from "@/components/user-avatar";
-import { BotAvatar } from "@/components/bot-avatar";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { ChatCompletionMessageParam } from "openai/resources/index.mjs";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import { formSchema } from "./constants";
+import { useProModal } from "@/hooks/use-pro-modal";
 
 export default function CodePage() {
     const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
+    const proModal = useProModal();
     const router = useRouter()
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -48,7 +51,11 @@ export default function CodePage() {
 
             form.reset();
         } catch (error: any) {
-            console.log(error)
+            if (error?.response?.status === 403) {
+                proModal.onOpen();
+            } else {
+                toast.error("Something went wrong.")
+            }
         } finally {
             router.refresh();
         }
@@ -110,13 +117,13 @@ export default function CodePage() {
                                 {message.role === "user" ? <UserAvatar /> : <BotAvatar />}
 
                                 <ReactMarkdown components={{
-                                    pre: ({ node, ...props}) => (
+                                    pre: ({ node, ...props }) => (
                                         <div className="overflow-auto w-full my-2 bg-black/10 p-2 rounded-lg">
-                                            <pre {...props}/>
+                                            <pre {...props} />
                                         </div>
                                     ),
-                                    code: ({ node, ...props}) => (
-                                        <code className="bg-black/10 rounded-lg p-1" {...props}/>
+                                    code: ({ node, ...props }) => (
+                                        <code className="bg-black/10 rounded-lg p-1" {...props} />
                                     )
                                 }}
                                     className="text-sm overflow-hidden leading-7"
