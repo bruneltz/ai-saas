@@ -59,7 +59,7 @@ interface SidebarConfig {
     isPro: boolean;
 }
 
-export default function Sidebar(props : SidebarConfig) {
+export default function Sidebar({ count = 0, isPro} : SidebarConfig) {
     const pathname = usePathname();
 
     return (
@@ -86,8 +86,8 @@ export default function Sidebar(props : SidebarConfig) {
                 </div>
             </div>
             <FreeCounter 
-                apiLimitCount={props.count}
-                isPro={props.isPro}
+                apiLimitCount={count}
+                isPro={isPro}
             />
         </div>
     )

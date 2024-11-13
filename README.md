@@ -1,7 +1,42 @@
 # AI SaaS
 
-Things to remember:
-- The statement `router.refresh()` is what rehydrates the client components with th server updates, e.g. to increase the free generations progress indicator
+> Study course promoted by [Coding with Antonio](https://www.youtube.com/watch?v=ffJ38dBzrlY).
 
-Libraries used:
-- ClerkJS
+---
+
+The AI SaaS provides 5 different integrations with AI APIs, along with Stripe subscription system, Clerk user authentication and Crisp chat support.
+
+[demo]
+
+To run locally, follow these commands:
+
+1. Clone this project
+2. Run `npm install` 
+3. Run `npm run dev`
+4. Create a `.env` file in the root and set the following environment variables:
+```properties
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+
+NEXT_PUBLIC_APP_URL=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+
+OPEN_API_KEY=
+
+STRIPE_API_KEY=
+STRIPE_WEBHOOK_SECRET=
+
+POSTGRES_URL=
+POSTGRES_PRISMA_URL=
+POSTGRES_URL_NO_SSL=
+POSTGRES_URL_NON_POOLING=
+POSTGRES_USER=
+POSTGRES_HOST=
+POSTGRES_PASSWORD=
+POSTGRES_DATABASE=
+```
+4. Run `npm run postinstall`
+1. Open http://localhost:3000/
+
+---
