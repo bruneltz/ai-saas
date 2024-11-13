@@ -6,14 +6,13 @@
 
 The AI SaaS provides 5 different integrations with AI APIs, along with Stripe subscription system, Clerk user authentication and Crisp chat support.
 
-[demo]
+![Demo](/demo/demo1.gif)
 
 To run locally, follow these commands:
 
 1. Clone this project
 2. Run `npm install` 
-3. Run `npm run dev`
-4. Create a `.env` file in the root and set the following environment variables:
+3. Create a `.env` file in the root and set the following environment variables:
 ```properties
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
 CLERK_SECRET_KEY=
@@ -36,7 +35,8 @@ POSTGRES_HOST=
 POSTGRES_PASSWORD=
 POSTGRES_DATABASE=
 ```
-4. Run `npm run postinstall`
-1. Open http://localhost:3000/
+1. Run `npm run postinstall`
+2. Run `npm run dev`
+3. Open http://localhost:3000/
 
 ---
