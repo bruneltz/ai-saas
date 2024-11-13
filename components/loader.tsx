@@ -7,7 +7,7 @@ export function Loader() {
                 <Image
                     alt="logo"
                     fill
-                    src="/globe.svg"
+                    src="/vercel.svg"
                 />
             </div>
             <p className="text-sm text-muted-foreground">

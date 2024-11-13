@@ -56,6 +56,9 @@ export default function ConversationPage() {
                 toast.error("Something went wrong.")
             }
         } finally {
+            // The statement `router.refresh()` is what rehydrates the 
+            //client components with th server updates, e.g. to increase 
+            // the free generations progress indicator
             router.refresh();
         }
     }
