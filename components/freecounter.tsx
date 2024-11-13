@@ -13,7 +13,7 @@ interface FreeCounterConfig {
     isPro: boolean;
 }
 
-export default function FreeCounter({apiLimitCount = 0, isPro = 0}  : FreeCounterConfig) {
+export default function FreeCounter({apiLimitCount = 0, isPro = false}  : FreeCounterConfig) {
     const [mounted, setMounted] = useState(false);
     const proModal = useProModal();
 

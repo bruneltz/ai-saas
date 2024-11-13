@@ -5,7 +5,7 @@ import { Button } from "./ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
 import Sidebar from "./sidebar";
 
-export default function MobileSidebar(props) {
+export default function MobileSidebar(props: { count: number; isPro: boolean; }) {
 
     return (
         <Sheet>
